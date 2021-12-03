@@ -152,10 +152,14 @@ OPENROWSET
 ) AS fct
 
 
+--Here we put the initial load inside a date folder to match the patter with the incremetal data that will be added later.
+-- The patter for the folder is conformed/facts/factsales/*/*/*.parquet
+-- In this way we can extract the "loaded" date using the second wildcard and ensure that the folder structure is consistent for the view.
+
 CREATE EXTERNAL TABLE STG.FactSales
 WITH 
 (
-  LOCATION = 'conformed/facts/factsales/initial',
+  LOCATION = 'conformed/facts/factsales/initial/2021-04-17' 
   DATA_SOURCE = ExternalDataSourceDataLake,
   FILE_FORMAT = SynapseParquetFormat
 ) 
@@ -185,7 +189,8 @@ AS
 SELECT * FROM 
 OPENROWSET 
 (
-    BULK 'conformed/facts/factsales/initial',
+-- updated BULK for new folder structure format
+    BULK 'conformed/facts/factsales/initial/2021-04-17',
     DATA_SOURCE = 'ExternalDataSourceDataLake',
     FORMAT = 'Parquet'
 ) AS fct
