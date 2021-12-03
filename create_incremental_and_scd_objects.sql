@@ -42,6 +42,7 @@ DECLARE @location varchar(100)
 IF OBJECT_ID('STG.FactSales') IS NOT NULL 
   DROP EXTERNAL TABLE STG.FactSales
 
+--updated format of date in location string to avoid creating heirarchy of folders
 SET @location = CONCAT('conformed/facts/factsales/incremental/',FORMAT (@ProcessDate, 'yyyy-MM-dd') )
 
 DECLARE @CreateExternalTableString NVARCHAR(2000)
