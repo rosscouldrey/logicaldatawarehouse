@@ -21,7 +21,7 @@ SELECT
     CAST(SOL.Quantity AS INT) AS SalesOrderQuantity, 
     CAST(SOL.UnitPrice AS DECIMAL(18,2)) AS SalesOrderUnitPrice,
   -- added new salesAmount column for more simple final model
-    CAST(SOL.Quantity AS INT) * CAST (SOL.UnitPrice as Decimal) as SalesAmount
+    CAST(SOL.Quantity AS DECIMAL(18,2)) * CAST (SOL.UnitPrice as DECIMAL (18,2)) as SalesAmount
 FROM LDW.vwSalesOrdersLines SOL
 INNER JOIN LDW.vwSalesOrders SO ON SOL.OrderID = SO.OrderID
 LEFT JOIN LDW.vwDimCustomer DC ON DC.CustomerID = SO.CustomerID
@@ -186,7 +186,8 @@ CAST(SO.OrderID AS INT) AS OrderID,
 CAST(SOL.OrderLineID AS INT) AS OrderLineID,  
 --Measure
 CAST(SOL.Quantity AS INT) AS SalesOrderQuantity, 
-CAST(SOL.UnitPrice AS DECIMAL(18,2)) AS SalesOrderUnitPrice
+CAST(SOL.UnitPrice AS DECIMAL(18,2)) AS SalesOrderUnitPrice,
+CAST(SOL.Quantity AS DECIMAL(18,2)) * CAST (SOL.UnitPrice as DECIMAL (18,2)) as SalesAmount
 FROM LDW.vwSalesOrdersLines SOL
 INNER JOIN LDW.vwSalesOrders SO ON SOL.OrderID = SO.OrderID
 LEFT JOIN LDW.vwDimCustomer DC ON DC.CustomerID = SO.CustomerID
